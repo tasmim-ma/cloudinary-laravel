@@ -20,7 +20,8 @@
         "cloudinary/cloudinary_php": "^2.6",
         "spatie/laravel-package-tools": "^1.9.2",
         "jenssegers/mongodb": "^3.8",
-        "illuminate/contracts": "^8.73"
+        "illuminate/contracts": "^8.73",
+        "spatie/temporary-directory": "^2.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.4",
@@ -61,7 +62,10 @@
         "laravel": {
             "providers": [
                 "Tasmim\\CloudinaryLaravel\\CloudinaryServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Cloudinary": "Tasmim\\CloudinaryLaravel\\Facades\\Cloudinary"
+            }
         }
     },
     "minimum-stability": "dev",

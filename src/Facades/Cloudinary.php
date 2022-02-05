@@ -3,14 +3,12 @@
 namespace Tasmim\CloudinaryLaravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Tasmim\CloudinaryLaravel\CloudinaryEngine;
 
-/**
- * @see \Tasmim\CloudinaryLaravel\CloudinaryLaravel
- */
-class CloudinaryLaravel extends Facade
+class Cloudinary extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'cloudinary-laravel';
+        return CloudinaryEngine::class;
     }
 }
