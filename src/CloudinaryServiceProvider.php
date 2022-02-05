@@ -3,8 +3,6 @@
 namespace Tasmim\CloudinaryLaravel;
 
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
-use League\Flysystem\Filesystem;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -20,7 +18,6 @@ class CloudinaryServiceProvider extends PackageServiceProvider
     public function bootingPackage(): void
     {
         $this->bootMacros();
-        $this->bootCloudinaryDriver();
     }
 
     public function packageRegistered(): void
@@ -51,18 +48,6 @@ class CloudinaryServiceProvider extends PackageServiceProvider
                     $this->getRealPath(),
                     ['folder' => $folder, 'public_id' => $publicId]
                 );
-            }
-        );
-    }
-
-    protected function bootCloudinaryDriver()
-    {
-        $this->app['config']['filesystems.disks.cloudinary'] = ['driver' => 'cloudinary'];
-
-        Storage::extend(
-            'cloudinary',
-            function ($app, $config) {
-                return new Filesystem(new CloudinaryAdapter(config('cloudinary.cloud_url')));
             }
         );
     }

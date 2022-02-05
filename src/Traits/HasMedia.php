@@ -159,4 +159,24 @@ trait HasMedia
         $this->detachMedia();
         $this->attachRemoteMedia($file, $options, $collection);
     }
+
+    public function image()
+    {
+        return $this->fetchFirstMedia();
+    }
+
+    public function thumb_url()
+    {
+        return $this->getResponsiveMedia($this->image()?->file_name, 't_media_lib_thumb');
+    }
+
+    public function preview_url()
+    {
+        return $this->getResponsiveMedia($this->image()?->file_name, 't_preview');
+    }
+
+    public function image_url()
+    {
+        return $this->getResponsiveMedia($this->image()?->file_name, 't_default');
+    }
 }
