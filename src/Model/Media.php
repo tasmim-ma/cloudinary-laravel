@@ -56,7 +56,7 @@ class Media extends Model
         return resolve(CloudinaryEngine::class)->getResponsiveMedia($this, 't_default');
     }
 
-    public function preview_document(string $options = 'c_fill,g_center,h_160,q_auto,w_160')
+    public function preview_document(string $options = 'c_fill,g_center,h_160,q_auto,w_160,f_jpg')
     {
         return resolve(CloudinaryEngine::class)->getResponsiveMedia($this, $options);
     }
