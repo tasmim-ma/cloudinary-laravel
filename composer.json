@@ -1,26 +1,29 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "tasmim/cloudinary-laravel",
+    "description": "A Cloudinary Laravel Package for Tasmim",
     "keywords": [
-        ":vendor_name",
+        "tasmim",
         "laravel",
-        ":package_slug"
+        "cloudinary-laravel"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/tasmim/cloudinary-laravel",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Tasmim",
+            "email": "webmaster@tasmim.ma",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.0",
+        "cloudinary/cloudinary_php": "^2.6",
         "spatie/laravel-package-tools": "^1.9.2",
+        "jenssegers/mongodb": "^3.8",
         "illuminate/contracts": "^8.73"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.4",
         "nunomaduro/collision": "^5.10",
         "nunomaduro/larastan": "^1.0",
         "orchestra/testbench": "^6.22",
@@ -29,36 +32,36 @@
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
-        "phpunit/phpunit": "^9.5",
-        "spatie/laravel-ray": "^1.26"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Tasmim\\CloudinaryLaravel\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Tasmim\\CloudinaryLaravel\\Tests\\": "tests"
         }
     },
     "scripts": {
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
-        "test-coverage": "vendor/bin/pest --coverage"
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
-            ],
-            "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
-            }
+                "Tasmim\\CloudinaryLaravel\\CloudinaryServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",
