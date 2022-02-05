@@ -16,6 +16,7 @@ use Cloudinary\Cloudinary;
 use Cloudinary\Tag\ImageTag;
 use Cloudinary\Tag\VideoTag;
 use GuzzleHttp\Promise\PromiseInterface;
+use Tasmim\CloudinaryLaravel\Model\Media;
 
 /**
  * Class CloudinaryEngine
@@ -59,6 +60,8 @@ class CloudinaryEngine
 
     protected $cloudinaryConfig;
 
+    protected $cloudinaryName;
+
     protected $response;
 
     public function __construct()
@@ -66,6 +69,7 @@ class CloudinaryEngine
         $this->setUserPlatform();
         $this->setCloudinaryConfig();
         $this->bootCloudinary();
+        $this->cloudinaryName = config('cloudinary.cloud_name');
     }
 
     /**
@@ -94,6 +98,16 @@ class CloudinaryEngine
     public function bootCloudinary()
     {
         $this->cloudinary = new Cloudinary($this->cloudinaryConfig);
+    }
+
+    public function getCloudinaryUrl()
+    {
+        return 'https://res.cloudinary.com/'.$this->cloudinaryName.'/image/upload/';
+    }
+
+    public function getResponsiveMedia(Media $media, string $options = 'f_auto,q_auto'): ?string
+    {
+        return $this->getCloudinaryUrl().$options.'/'.$media->file_name;
     }
 
     /**

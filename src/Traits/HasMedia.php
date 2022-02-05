@@ -24,36 +24,6 @@ trait HasMedia
         return $this->morphMany(Media::class, 'model');
     }
 
-    public function getCloudinaryUrl()
-    {
-        return 'https://res.cloudinary.com/'.config('cloudinary.cloud_name').'/image/upload/';
-    }
-
-    public function getResponsiveMedia(string $options = 'f_auto,q_auto'): ?string
-    {
-        return $this->getCloudinaryUrl().$options.'/'.$this->file_name;
-    }
-
-    public function thumb_url()
-    {
-        return $this->getResponsiveMedia('t_media_lib_thumb');
-    }
-
-    public function preview_url()
-    {
-        return $this->getResponsiveMedia('t_preview');
-    }
-
-    public function image_url()
-    {
-        return $this->getResponsiveMedia('t_default');
-    }
-
-    public function preview_file(string $options = 'c_fill,g_center,h_160,q_auto,w_160')
-    {
-        return $this->getResponsiveMedia($options);
-    }
-
     /**
      * Attach Media Files to a Model
      */
