@@ -3,6 +3,7 @@
 namespace Tasmim\CloudinaryLaravel\Model;
 
 use Jenssegers\Mongodb\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Integer;
 use Tasmim\CloudinaryLaravel\CloudinaryEngine;
 
 /**
@@ -34,6 +35,26 @@ class Media extends Model
     public function model()
     {
         return $this->morphTo();
+    }
+
+    public function getSecurePath(): string
+    {
+        return $this->file_url;
+    }
+
+    public function getFileName(): string
+    {
+        return $this->file_name;
+    }
+
+    public function getFileType(): string
+    {
+        return $this->file_type;
+    }
+
+    public function getSize(): Integer
+    {
+        return $this->size;
     }
 
     public function getReadableSize(): string
