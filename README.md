@@ -1,4 +1,4 @@
-# A Cloudinary Laravel Package for Tasmim
+# A Cloudinary Laravel Package for Tasmim using MongoDB
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tasmim/cloudinary-laravel.svg?style=flat-square)](https://packagist.org/packages/tasmim/cloudinary-laravel)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/tasmim/cloudinary-laravel/run-tests?label=tests)](https://github.com/tasmim/cloudinary-laravel/actions?query=workflow%3Arun-tests+branch%3Amain)
