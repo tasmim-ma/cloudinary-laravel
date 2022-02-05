@@ -38,10 +38,7 @@
     "autoload": {
         "psr-4": {
             "Tasmim\\CloudinaryLaravel\\": "src"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {

@@ -29,13 +29,29 @@ trait HasMedia
         return 'https://res.cloudinary.com/'.config('cloudinary.cloud_name').'/image/upload/';
     }
 
-    public function getResponsiveMedia($fileName, $options = 'f_auto,q_auto')
+    public function getResponsiveMedia(string $options = 'f_auto,q_auto'): ?string
     {
-        if (empty($fileName)) {
-            return null;
-        }
+        return $this->getCloudinaryUrl().$options.'/'.$this->file_name;
+    }
 
-        return $this->getCloudinaryUrl().$options.'/'.$fileName;
+    public function thumb_url()
+    {
+        return $this->getResponsiveMedia('t_media_lib_thumb');
+    }
+
+    public function preview_url()
+    {
+        return $this->getResponsiveMedia('t_preview');
+    }
+
+    public function image_url()
+    {
+        return $this->getResponsiveMedia('t_default');
+    }
+
+    public function preview_file(string $options = 'c_fill,g_center,h_160,q_auto,w_160')
+    {
+        return $this->getResponsiveMedia($options);
     }
 
     /**
@@ -52,17 +68,8 @@ trait HasMedia
         move_uploaded_file($file->getRealPath(), $temporaryDirectory->path($filename));
 
         $response = resolve(CloudinaryEngine::class)->uploadFile($temporaryDirectory->path($filename), $options);
-        $media = new Media();
-        $media->collection = $collection;
-        $media->public_id = $response->getPublicId();
-        $media->file_name = $response->getFileName();
-        $media->file_url = $response->getSecurePath();
-        $media->size = $response->getSize();
-        $media->file_type = $response->getFileType();
-        $media->width = $response->getWidth();
-        $media->height = $response->getHeight();
-        $media->uploaded_at = $response->getTimeUploaded();
-        $this->media()->save($media);
+
+        $this->generateMedia($response, $collection);
 
         $temporaryDirectory->delete();
     }
@@ -74,17 +81,24 @@ trait HasMedia
     {
         $response = resolve(CloudinaryEngine::class)->uploadFile($remoteFile, $options);
 
+        $this->generateMedia($response, $collection);
+    }
+
+    protected function generateMedia(CloudinaryEngine $response, string $collection = '')
+    {
         $media = new Media();
         $media->collection = $collection;
         $media->public_id = $response->getPublicId();
         $media->file_name = $response->getFileName();
         $media->file_url = $response->getSecurePath();
-        $media->size = $response->getSize();
         $media->file_type = $response->getFileType();
+        $media->file_extension = $response->getExtension();
+        $media->size = $response->getSize();
+        $media->readable_size = $response->getReadableSize();
+        $media->original_file_name = $response->getOriginalFileName();
         $media->width = $response->getWidth();
         $media->height = $response->getHeight();
         $media->uploaded_at = $response->getTimeUploaded();
-
         $this->media()->save($media);
     }
 
@@ -129,14 +143,16 @@ trait HasMedia
     */
     public function detachMedia(Media $media = null)
     {
+        if (! is_null($media)) {
+            resolve(CloudinaryEngine::class)->destroy($media->getFileName());
+
+            return $media->delete();
+        }
+
         $items = $this->media()->get();
 
         foreach ($items as $item) {
             resolve(CloudinaryEngine::class)->destroy($item->getFileName());
-
-            if (! is_null($media) && $item->_id === $media->_id) {
-                return $item->delete();
-            }
         }
 
         return $this->media()->delete();
@@ -158,25 +174,5 @@ trait HasMedia
     {
         $this->detachMedia();
         $this->attachRemoteMedia($file, $options, $collection);
-    }
-
-    public function image()
-    {
-        return $this->fetchFirstMedia();
-    }
-
-    public function thumb_url()
-    {
-        return $this->getResponsiveMedia($this->image()?->file_name, 't_media_lib_thumb');
-    }
-
-    public function preview_url()
-    {
-        return $this->getResponsiveMedia($this->image()?->file_name, 't_preview');
-    }
-
-    public function image_url()
-    {
-        return $this->getResponsiveMedia($this->image()?->file_name, 't_default');
     }
 }
