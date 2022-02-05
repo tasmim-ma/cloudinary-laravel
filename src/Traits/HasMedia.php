@@ -24,6 +24,30 @@ trait HasMedia
         return $this->morphMany(Media::class, 'model');
     }
 
+    public function image_url()
+    {
+        if ($this->fetchFirstMedia()) {
+            return resolve(CloudinaryEngine::class)->getResponsiveMedia($this->fetchFirstMedia(), 't_default');
+        }
+        return null;
+    }
+
+    public function preview_url()
+    {
+        if ($this->fetchFirstMedia()) {
+            return resolve(CloudinaryEngine::class)->getResponsiveMedia($this->fetchFirstMedia(), 't_preview');
+        }
+        return null;
+    }
+
+    public function thumb_url()
+    {
+        if ($this->fetchFirstMedia()) {
+            return resolve(CloudinaryEngine::class)->getResponsiveMedia($this->fetchFirstMedia(), 't_media_lib_thumb');
+        }
+        return null;
+    }
+
     /**
      * Attach Media Files to a Model
      */
