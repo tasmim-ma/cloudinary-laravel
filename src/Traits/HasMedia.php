@@ -29,6 +29,7 @@ trait HasMedia
         if ($this->fetchFirstMedia()) {
             return resolve(CloudinaryEngine::class)->getResponsiveMedia($this->fetchFirstMedia(), 't_default');
         }
+
         return null;
     }
 
@@ -37,6 +38,7 @@ trait HasMedia
         if ($this->fetchFirstMedia()) {
             return resolve(CloudinaryEngine::class)->getResponsiveMedia($this->fetchFirstMedia(), 't_preview');
         }
+
         return null;
     }
 
@@ -45,6 +47,7 @@ trait HasMedia
         if ($this->fetchFirstMedia()) {
             return resolve(CloudinaryEngine::class)->getResponsiveMedia($this->fetchFirstMedia(), 't_media_lib_thumb');
         }
+
         return null;
     }
 
